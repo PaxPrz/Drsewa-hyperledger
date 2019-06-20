@@ -50,6 +50,15 @@ rule PatientCanRUDOwnReport{
   action: ALLOW
 }
 
+rule DoctorCanReadPatient{
+  description: "Doctor can read patient"
+  participant(p): "com.pax.drsewa.Doctor"
+  operation: READ
+  resource(r): "com.pax.drsewa.Patient"
+  condition: (r.allowedDr.includes(p.emailId))
+  action: ALLOW
+}
+
 rule DoctorCanReadReport{
   description: "Doctor can read report if in patient allowed list"
   participant(p): "com.pax.drsewa.Doctor"
