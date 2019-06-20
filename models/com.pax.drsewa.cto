@@ -122,6 +122,16 @@ transaction MakeAppointment{
   o String[] problems
 }
 
+transaction ValidateAppointment{
+  o String appointmentId
+  o Integer year
+  o Integer month
+  o Integer date
+  o Integer hr
+  o Integer min
+  o Boolean changeDateTime
+}
+
 /*
 asset Balance identified by balanceId{
   o String balanceId

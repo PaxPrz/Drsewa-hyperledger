@@ -135,6 +135,14 @@ rule PatientCanMakeAppointment{
   action: ALLOW
 }
 
+rule DoctorCanValidateAppointment{
+  description: "Doctor can validate Appointment transaction"
+  participant: "com.pax.drsewa.Doctor"
+  operation: CREATE
+  resource: "com.pax.drsewa.ValidateAppointment"
+  action: ALLOW
+}
+
 rule PeopleCanSeeTheirOwnHistoryOnly{
 	description: "Person should be able to see the history of their own transaction only"
   	participant(p): "com.pax.drsewa.Person"
