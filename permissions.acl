@@ -33,15 +33,6 @@ rule PeopleSeeAllDoctors{
   action: ALLOW
 }
 
-rule PersonCanReadBalance{
-  description: "People can read their balance"
-  participant(p): "com.pax.drsewa.Person"
-  operation: READ
-  resource(r): "com.pax.drsewa.Balance"
-  condition: (r.person.getIdentifier() == p.getIdentifier())
-  action: ALLOW
-}
-
 rule PeopleCanCreateReport{
   description: "Patient and Doctor can generate report"
   participant: "com.pax.drsewa.Person"
@@ -134,6 +125,17 @@ rule NetworkAdminSystem {
     resource: "org.hyperledger.composer.system.**"
     action: ALLOW
 }
+
+/*
+rule PersonCanReadBalance{
+  description: "People can read their balance"
+  participant(p): "com.pax.drsewa.Person"
+  operation: READ
+  resource(r): "com.pax.drsewa.Balance"
+  condition: (r.person.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+*/
 
 /*
 rule EverybodyCanReadEverything {

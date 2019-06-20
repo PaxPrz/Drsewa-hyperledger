@@ -33,9 +33,11 @@ concept Date{
 abstract participant Person identified by emailId{
   o String emailId
   o String name
-  o Date birthDate
+  o Integer year 
+  o Integer month
+  o Integer date
   o Gender gender
-  --> Balance balance
+  o Double balance
 }
 
 participant Patient extends Person{
@@ -50,12 +52,6 @@ participant Doctor extends Person{
   o String description
   o String[] hospitals
   o Double rate
-}
-
-asset Balance identified by balanceId{
-  o String balanceId
-  o Double amount default=0.0
-  --> Person person
 }
 
 asset Report identified by reportId{
@@ -103,3 +99,11 @@ transaction RechargeBalance{
   --> Person person
   o Integer rechargeCard
 }
+
+/*
+asset Balance identified by balanceId{
+  o String balanceId
+  o Double amount default=0.0
+  --> Person person
+}
+*/
