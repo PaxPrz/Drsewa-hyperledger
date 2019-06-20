@@ -30,12 +30,15 @@ concept Date{
   o Integer date
 }
 
+concept Time{
+  o Integer hr
+  o Integer min
+}
+
 abstract participant Person identified by emailId{
   o String emailId
   o String name
-  o Integer year 
-  o Integer month
-  o Integer date
+  o Date dob
   o Gender gender
   o Double balance
 }
@@ -52,6 +55,16 @@ participant Doctor extends Person{
   o String description
   o String[] hospitals
   o Double rate
+}
+
+asset Appointment identified by appointmentId{
+  o String appointmentId
+  --> Patient patient
+  --> Doctor doctor
+  o Date date
+  o Time time
+  o Boolean valid
+  o String[] problems
 }
 
 asset Report identified by reportId{
@@ -96,8 +109,17 @@ transaction CreateDoctor{
 }
 
 transaction RechargeBalance{
-  --> Person person
   o Integer rechargeCard
+}
+
+transaction MakeAppointment{
+  o String doctorEmailId
+  o Integer year
+  o Integer month
+  o Integer date
+  o Integer hr
+  o Integer min
+  o String[] problems
 }
 
 /*

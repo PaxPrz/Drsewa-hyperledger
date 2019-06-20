@@ -93,6 +93,48 @@ rule PersonCantCURDPerson{
   action: DENY
 }
 
+rule PersonCanRecharge{
+  description: "People can recharge"
+  participant: "com.pax.drsewa.Person"
+  operation: CREATE
+  resource: "com.pax.drsewa.RechargeBalance"
+  action: ALLOW
+}
+
+rule PatientCanCreateAppointment{
+  description: "Patient can CURD Appointment"
+  participant: "com.pax.drsewa.Patient"
+  operation: CREATE
+  resource: "com.pax.drsewa.Appointment"
+  action: ALLOW
+}
+
+rule PatientCanURDOwnAppointment{
+  description: "Patient can Update Read Delete Appointment"
+  participant(p): "com.pax.drsewa.Patient"
+  operation: UPDATE, READ, DELETE
+  resource(r): "com.pax.drsewa.Appointment"
+  condition: (r.patient.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorCanUROwnAppointment{
+  description: "Doctor can Update Read Appointment"
+  participant(p): "com.pax.drsewa.Doctor"
+  operation: UPDATE, READ
+  resource(r): "com.pax.drsewa.Appointment"
+  condition: (r.doctor.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule PatientCanMakeAppointment{
+  description: "Patient can make appointment transaction"
+  participant: "com.pax.drsewa.Patient"
+  operation: CREATE
+  resource: "com.pax.drsewa.MakeAppointment"
+  action: ALLOW
+}
+
 rule PeopleCanSeeTheirOwnHistoryOnly{
 	description: "Person should be able to see the history of their own transaction only"
   	participant(p): "com.pax.drsewa.Person"
