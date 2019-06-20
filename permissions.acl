@@ -1,0 +1,164 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Sample access control list.
+ */
+
+rule PeopleCURDThemselves{
+  description: "People can see themselves"
+  participant(p): "com.pax.drsewa.Person"
+  operation: ALL
+  resource(r): "com.pax.drsewa.Person"
+  condition: (p.getIdentifier() == r.getIdentifier())
+  action: ALLOW
+}
+
+rule PeopleSeeAllDoctors{
+  description: "People can see all doctors"
+  participant: "com.pax.drsewa.Person"
+  operation: READ
+  resource: "com.pax.drsewa.Doctor"
+  action: ALLOW
+}
+
+rule PersonCanReadBalance{
+  description: "People can read their balance"
+  participant(p): "com.pax.drsewa.Person"
+  operation: READ
+  resource(r): "com.pax.drsewa.Balance"
+  condition: (r.person.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule PeopleCanCreateReport{
+  description: "Patient and Doctor can generate report"
+  participant: "com.pax.drsewa.Person"
+  operation: CREATE
+  resource: "com.pax.drsewa.Report"
+  action: ALLOW
+}
+
+rule PatientCanRUDOwnReport{
+  description: "Patient can CURD own report"
+  participant(p): "com.pax.drsewa.Patient"
+  operation: ALL
+  resource(r): "com.pax.drsewa.Report"
+  condition: (p.getIdentifier() == r.patient.getIdentifier())
+  action: ALLOW
+}
+
+rule DoctorCanReadReport{
+  description: "Doctor can read report if in patient allowed list"
+  participant(p): "com.pax.drsewa.Doctor"
+  operation: READ
+  resource(r): "com.pax.drsewa.Report"
+  condition: (isDoctorAllowed(p, r))
+  action: ALLOW
+}
+
+rule DoctorCanCreatePrescription{
+  description: "Doctor can create prescription"
+  participant: "com.pax.drsewa.Doctor"
+  operation: CREATE
+  resource: "com.pax.drsewa.Prescription"
+  action: ALLOW
+}
+
+rule DoctorCanURDOwnPrescription{
+  description: "Doctor can Update Read Delete Own Prescription"
+  participant(p): "com.pax.drsewa.Doctor"
+  operation: READ, UPDATE, DELETE 
+  resource(r): "com.pax.drsewa.Prescription"
+  condition: (r.doctor.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule PatientCanViewOwnPrescription{
+  description: "Patient can Read own prescription"
+  participant(p): "com.pax.drsewa.Patient"
+  operation: READ
+  resource(r): "com.pax.drsewa.Prescription"
+  condition: (r.patient.getIdentifier() == p.getIdentifier())
+  action: ALLOW
+}
+
+rule PersonCantCURDPerson{
+  description: "Person Cannot create Person"
+  participant: "com.pax.drsewa.Person"
+  operation: CREATE
+  resource: "com.pax.drsewa.Person"
+  action: DENY
+}
+
+rule PeopleCanSeeTheirOwnHistoryOnly{
+	description: "Person should be able to see the history of their own transaction only"
+  	participant(p): "com.pax.drsewa.Person"
+  	operation: READ
+   	resource(r): "org.hyperledger.composer.system.HistorianRecord"
+  	condition: (r.participantInvoking.getIdentifier() != p.getIdentifier())
+  	action: DENY
+}
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+/*
+rule EverybodyCanReadEverything {
+    description: "Allow all participants read access to all resources"
+    participant: "com.pax.drsewa.SampleParticipant"
+    operation: READ
+    resource: "com.pax.drsewa.*"
+    action: ALLOW
+}
+
+rule EverybodyCanSubmitTransactions {
+    description: "Allow all participants to submit transactions"
+    participant: "com.pax.drsewa.SampleParticipant"
+    operation: CREATE
+    resource: "com.pax.drsewa.SampleTransaction"
+    action: ALLOW
+}
+
+rule OwnerHasFullAccessToTheirAssets {
+    description: "Allow all participants full access to their assets"
+    participant(p): "com.pax.drsewa.SampleParticipant"
+    operation: ALL
+    resource(r): "com.pax.drsewa.SampleAsset"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+*/

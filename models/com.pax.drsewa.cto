@@ -1,0 +1,105 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Write your model definitions here
+ */
+
+namespace com.pax.drsewa
+
+enum Gender{
+  o MALE
+  o FEMALE
+  o TRANSGENDER
+}
+
+concept Date{
+  o Integer year 
+  o Integer month
+  o Integer date
+}
+
+abstract participant Person identified by emailId{
+  o String emailId
+  o String name
+  o Date birthDate
+  o Gender gender
+  --> Balance balance
+}
+
+participant Patient extends Person{
+  --> Report[] reports optional
+  o String[] allowedDr optional
+}
+
+participant Doctor extends Person{
+  --> Patient[] patients optional
+  o String[] specialities
+  o String[] education
+  o String description
+  o String[] hospitals
+  o Double rate
+}
+
+asset Balance identified by balanceId{
+  o String balanceId
+  o Double amount default=0.0
+  --> Person person
+}
+
+asset Report identified by reportId{
+  o String reportId
+  o Date reportDate
+  o String[] content
+  o String institute optional
+  --> Patient patient 
+  --> Doctor doctor optional
+}
+
+asset Prescription identified by prescriptionId{
+  o String prescriptionId
+  o Date prescriptionDate
+  o String diagnosis
+  o String[] medications
+  --> Patient patient 
+  --> Doctor doctor 
+}
+
+transaction CreatePatient{
+  o String emailId
+  o String name
+  o Integer year 
+  o Integer month
+  o Integer date
+  o Gender gender
+}
+
+transaction CreateDoctor{
+  o String emailId
+  o String name
+  o Integer year 
+  o Integer month
+  o Integer date
+  o Gender gender
+  o String[] specialities
+  o String[] education
+  o String description
+  o String[] hospitals
+  o Double rate
+}
+
+transaction RechargeBalance{
+  --> Person person
+  o Integer rechargeCard
+}
