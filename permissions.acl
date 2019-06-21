@@ -181,8 +181,8 @@ rule PatientCanUpdateOwnDoctor{
   participant(p): "com.pax.drsewa.Patient"
   operation: UPDATE, READ
   resource(r): "com.pax.drsewa.Doctor"
-  condition: (r.patients.includes(p.emailId))
-  action: ALLOW
+  condition: (amIPatientList(p, r))
+  action: ALLOW 
 }
 
 rule PatientCanRateDoctor{

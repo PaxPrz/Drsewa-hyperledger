@@ -49,10 +49,10 @@ participant Patient extends Person{
 }
 
 participant Doctor extends Person{
-  o String[] patients optional
   o String[] specialities
   o String[] education
   o String description
+  --> Patient[] patientList optional
   o String[] hospitals
   o Double rate
   o Double rating
