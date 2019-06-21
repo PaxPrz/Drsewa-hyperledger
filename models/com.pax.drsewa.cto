@@ -49,12 +49,14 @@ participant Patient extends Person{
 }
 
 participant Doctor extends Person{
-  --> Patient[] patients optional
+  o String[] patients optional
   o String[] specialities
   o String[] education
   o String description
   o String[] hospitals
   o Double rate
+  o Double rating
+  o Integer noOfPatientRated
 }
 
 asset Appointment identified by appointmentId{
@@ -153,6 +155,11 @@ transaction CreatePrescription{
   o String diagnosis
   o String[] medications
   o String patient
+}
+
+transaction RateDoctor{
+  o String emailId
+  o Integer rating
 }
 
 /*

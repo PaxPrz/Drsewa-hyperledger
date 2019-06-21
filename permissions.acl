@@ -176,6 +176,23 @@ rule DoctorCreateCreatePrescription{
   action: ALLOW
 }
 
+rule PatientCanUpdateOwnDoctor{
+  description: "Doctor's patient can modify Doctor"
+  participant(p): "com.pax.drsewa.Patient"
+  operation: UPDATE, READ
+  resource(r): "com.pax.drsewa.Doctor"
+  condition: (r.patients.includes(p.emailId))
+  action: ALLOW
+}
+
+rule PatientCanRateDoctor{
+  description: "Patient can rate own doctor transaction"
+  participant: "com.pax.drsewa.Patient"
+  operation: CREATE
+  resource: "com.pax.drsewa.RateDoctor"
+  action: ALLOW
+}
+
 rule PeopleCanSeeTheirOwnHistoryOnly{
 	description: "Person should be able to see the history of their own transaction only"
   	participant(p): "com.pax.drsewa.Person"
