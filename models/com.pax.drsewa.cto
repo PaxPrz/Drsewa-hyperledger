@@ -132,6 +132,23 @@ transaction ValidateAppointment{
   o Boolean changeDateTime
 }
 
+transaction CreateReport{
+  o Integer year
+  o Integer month
+  o Integer date
+  o String[] content
+  o String institute
+}
+
+transaction CreateReportDr{
+  o Integer year
+  o Integer month
+  o Integer date
+  o String[] content
+  o String institute
+  o String patient
+}
+
 /*
 asset Balance identified by balanceId{
   o String balanceId
