@@ -149,6 +149,12 @@ transaction CreateReportDr{
   o String patient
 }
 
+transaction CreatePrescription{
+  o String diagnosis
+  o String[] medications
+  o String patient
+}
+
 /*
 asset Balance identified by balanceId{
   o String balanceId
