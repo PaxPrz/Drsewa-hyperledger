@@ -1,0 +1,30 @@
+{
+  "$class": "com.pax.drsewa.CreatePatient",
+  "emailId": "patient@email.com",
+  "name": "Patient",
+  "year": 1992,
+  "month": 2,
+  "date": 3,
+  "gender": "MALE"
+}
+
+{
+    "$class": "com.pax.drsewa.CreateDoctor",
+    "emailId": "doctor@email.com",
+    "name": "Doctor",
+    "year": 1990,
+    "month": 10,
+    "date": 10,
+    "gender": "MALE",
+    "specialities": [
+      "RAM"
+    ],
+    "education": [
+      "MBBS"
+    ],
+    "description": "string",
+    "hospitals": [
+      "ABC"
+    ],
+    "rate": 10
+}
