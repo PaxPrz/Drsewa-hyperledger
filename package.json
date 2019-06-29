@@ -3,7 +3,7 @@
     "composer": "^0.20.8"
   },
   "name": "drsewa",
-  "version": "0.0.9",
+  "version": "0.0.12",
   "description": "Codecamp Sagarmatha engineering college",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/drsewa.bna",

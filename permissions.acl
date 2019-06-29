@@ -64,7 +64,7 @@ rule DoctorCanReadReport{
   participant(p): "com.pax.drsewa.Doctor"
   operation: READ
   resource(r): "com.pax.drsewa.Report"
-  condition: (isDoctorAllowed(p, r))
+  condition: (r.patient.allowedDr.includes(p.emailId))
   action: ALLOW
 }
 
