@@ -1,4 +1,4 @@
-# drsewa
+# code-camp
 
 Codecamp Sagarmatha engineering college
 
